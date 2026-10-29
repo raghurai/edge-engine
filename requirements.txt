@@ -1,0 +1,7 @@
+alpaca-py
+python-dotenv
+pandas
+scikit-learn
+pyarrow
+transformers
+# torch is installed separately (CPU build): pip install torch --index-url https://download.pytorch.org/whl/cpu

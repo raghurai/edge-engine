@@ -1,0 +1,412 @@
+{
+ "started": "2026-10-29",
+ "cash": 2.780000000006602,
+ "open": [
+  {
+   "symbol": "BHC",
+   "entry_date": "2026-10-29",
+   "entry": 8.93,
+   "shares": 559,
+   "cost": 4991.87,
+   "expected_40d": 8.9,
+   "why": [
+    "beat by 64%, +10.2% on the day",
+    "strong day-0 reaction",
+    "gross margin +2.1pt"
+   ],
+   "price": 8.21,
+   "value": 4589.39,
+   "pnl": -402.48,
+   "ret_pct": -8.06,
+   "days_left": 39
+  },
+  {
+   "symbol": "BLCO",
+   "entry_date": "2026-10-29",
+   "entry": 20.5,
+   "shares": 243,
+   "cost": 4981.5,
+   "expected_40d": 8.9,
+   "why": [
+    "beat by 62%, +15.8% on the day",
+    "strong day-0 reaction",
+    "gross margin +2.5pt"
+   ],
+   "price": 19.98,
+   "value": 4856.35,
+   "pnl": -125.15,
+   "ret_pct": -2.51,
+   "days_left": 39
+  },
+  {
+   "symbol": "AER",
+   "entry_date": "2026-10-29",
+   "entry": 158.94,
+   "shares": 31,
+   "cost": 4927.14,
+   "expected_40d": 7.4,
+   "why": [
+    "beat by 44%, +3.7% on the day",
+    "gross margin +6.2pt"
+   ],
+   "price": 158.61,
+   "value": 4916.91,
+   "pnl": -10.23,
+   "ret_pct": -0.21,
+   "days_left": 39
+  },
+  {
+   "symbol": "AXGN",
+   "entry_date": "2026-10-29",
+   "entry": 49.73,
+   "shares": 100,
+   "cost": 4973.0,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 233%, +31.8% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 49.35,
+   "value": 4935.0,
+   "pnl": -38.0,
+   "ret_pct": -0.76,
+   "days_left": 39
+  },
+  {
+   "symbol": "COHU",
+   "entry_date": "2026-10-29",
+   "entry": 53.56,
+   "shares": 93,
+   "cost": 4981.08,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 56%, +4.4% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 50.84,
+   "value": 4727.65,
+   "pnl": -253.43,
+   "ret_pct": -5.09,
+   "days_left": 39
+  },
+  {
+   "symbol": "ETSY",
+   "entry_date": "2026-10-29",
+   "entry": 91.25,
+   "shares": 54,
+   "cost": 4927.5,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 46%, +5.4% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 88.9,
+   "value": 4800.6,
+   "pnl": -126.9,
+   "ret_pct": -2.58,
+   "days_left": 39
+  },
+  {
+   "symbol": "EVR",
+   "entry_date": "2026-10-29",
+   "entry": 297.6,
+   "shares": 16,
+   "cost": 4761.6,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 64%, +12.5% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 290.61,
+   "value": 4649.76,
+   "pnl": -111.84,
+   "ret_pct": -2.35,
+   "days_left": 39
+  },
+  {
+   "symbol": "FINW",
+   "entry_date": "2026-10-29",
+   "entry": 13.22,
+   "shares": 378,
+   "cost": 4997.16,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 300%, +5.4% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 13.28,
+   "value": 5019.84,
+   "pnl": 22.68,
+   "ret_pct": 0.45,
+   "days_left": 39
+  },
+  {
+   "symbol": "NEO",
+   "entry_date": "2026-10-29",
+   "entry": 17.48,
+   "shares": 286,
+   "cost": 4999.28,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 200%, +4.2% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 17.37,
+   "value": 4967.82,
+   "pnl": -31.46,
+   "ret_pct": -0.63,
+   "days_left": 39
+  },
+  {
+   "symbol": "NNBR",
+   "entry_date": "2026-10-29",
+   "entry": 3.83,
+   "shares": 1305,
+   "cost": 4998.15,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 250%, +8.4% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 3.93,
+   "value": 5128.65,
+   "pnl": 130.5,
+   "ret_pct": 2.61,
+   "days_left": 39
+  },
+  {
+   "symbol": "STLA",
+   "entry_date": "2026-10-29",
+   "entry": 4.67,
+   "shares": 1070,
+   "cost": 4996.9,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 86%, +13.1% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 4.64,
+   "value": 4964.8,
+   "pnl": -32.1,
+   "ret_pct": -0.64,
+   "days_left": 39
+  },
+  {
+   "symbol": "STNG",
+   "entry_date": "2026-10-29",
+   "entry": 95.05,
+   "shares": 52,
+   "cost": 4942.6,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 36%, +4.1% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 92.6,
+   "value": 4815.2,
+   "pnl": -127.4,
+   "ret_pct": -2.58,
+   "days_left": 39
+  },
+  {
+   "symbol": "TDOC",
+   "entry_date": "2026-10-29",
+   "entry": 8.85,
+   "shares": 564,
+   "cost": 4991.4,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 35%, +6.9% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 8.52,
+   "value": 4805.28,
+   "pnl": -186.12,
+   "ret_pct": -3.73,
+   "days_left": 39
+  },
+  {
+   "symbol": "ULCC",
+   "entry_date": "2026-10-29",
+   "entry": 6.5,
+   "shares": 769,
+   "cost": 4998.5,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 1000%, +11.6% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 6.45,
+   "value": 4960.05,
+   "pnl": -38.45,
+   "ret_pct": -0.77,
+   "days_left": 39
+  },
+  {
+   "symbol": "EXTR",
+   "entry_date": "2026-10-29",
+   "entry": 23.78,
+   "shares": 210,
+   "cost": 4993.8,
+   "expected_40d": 4.4,
+   "why": [
+    "beat by 40%, +2.5% on the day"
+   ],
+   "price": 22.6,
+   "value": 4746.0,
+   "pnl": -247.8,
+   "ret_pct": -4.96,
+   "days_left": 39
+  },
+  {
+   "symbol": "PUMP",
+   "entry_date": "2026-10-29",
+   "entry": 7.88,
+   "shares": 634,
+   "cost": 4995.92,
+   "expected_40d": 4.4,
+   "why": [
+    "beat by 550%, +2.9% on the day"
+   ],
+   "price": 7.73,
+   "value": 4900.82,
+   "pnl": -95.1,
+   "ret_pct": -1.9,
+   "days_left": 39
+  },
+  {
+   "symbol": "COLM",
+   "entry_date": "2026-10-30",
+   "entry": 66.84,
+   "shares": 73,
+   "cost": 4879.32,
+   "expected_40d": 8.9,
+   "why": [
+    "beat by 33%, +4.6% on the day",
+    "strong day-0 reaction",
+    "gross margin +7.6pt"
+   ],
+   "price": 67.58,
+   "value": 4933.34,
+   "pnl": 54.02,
+   "ret_pct": 1.11,
+   "days_left": 40
+  },
+  {
+   "symbol": "FCN",
+   "entry_date": "2026-10-30",
+   "entry": 183.93,
+   "shares": 26,
+   "cost": 4782.18,
+   "expected_40d": 8.9,
+   "why": [
+    "beat by 45%, +13.6% on the day",
+    "strong day-0 reaction",
+    "gross margin +0.6pt"
+   ],
+   "price": 182.99,
+   "value": 4757.74,
+   "pnl": -24.44,
+   "ret_pct": -0.51,
+   "days_left": 40
+  },
+  {
+   "symbol": "GDYN",
+   "entry_date": "2026-10-30",
+   "entry": 12.57,
+   "shares": 388,
+   "cost": 4877.16,
+   "expected_40d": 8.9,
+   "why": [
+    "beat by 140%, +8.6% on the day",
+    "strong day-0 reaction",
+    "gross margin +1.8pt"
+   ],
+   "price": 13.37,
+   "value": 5185.62,
+   "pnl": 308.46,
+   "ret_pct": 6.32,
+   "days_left": 40
+  },
+  {
+   "symbol": "H",
+   "entry_date": "2026-10-30",
+   "entry": 181.89,
+   "shares": 26,
+   "cost": 4729.14,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 84%, +6.0% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 180.66,
+   "value": 4697.16,
+   "pnl": -31.98,
+   "ret_pct": -0.68,
+   "days_left": 40
+  },
+  {
+   "symbol": "IDCC",
+   "entry_date": "2026-10-30",
+   "entry": 314.89,
+   "shares": 4,
+   "cost": 1259.56,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 74%, +4.4% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 311.92,
+   "value": 1247.68,
+   "pnl": -11.88,
+   "ret_pct": -0.94,
+   "days_left": 40
+  },
+  {
+   "symbol": "UFI",
+   "entry_date": "2026-10-30",
+   "entry": 6.23,
+   "shares": 2,
+   "cost": 12.46,
+   "expected_40d": 5.9,
+   "why": [
+    "beat by 40%, +12.3% on the day",
+    "strong day-0 reaction"
+   ],
+   "price": 5.94,
+   "value": 11.88,
+   "pnl": -0.58,
+   "ret_pct": -4.65,
+   "days_left": 40
+  }
+ ],
+ "closed": [],
+ "curve": [
+  {
+   "date": "2026-10-29",
+   "equity": 100169.17,
+   "spy_pct": 0.24
+  },
+  {
+   "date": "2026-10-30",
+   "equity": 98620.32,
+   "spy_pct": -1.55
+  }
+ ],
+ "spy_start": 767.62,
+ "summary": {
+  "live": true,
+  "equity": 98620.32,
+  "cash": 2.78,
+  "total_pnl": -1379.68,
+  "day_pnl": -1548.85,
+  "return_pct": -1.38,
+  "spy_pct": -1.55,
+  "open_pnl": -1379.68,
+  "realized": 0,
+  "n_open": 22,
+  "n_closed": 0,
+  "hit_rate": null,
+  "avg_excess": null
+ }
+}
