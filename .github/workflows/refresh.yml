@@ -1,0 +1,94 @@
+name: Refresh dashboard data
+
+# Keeps the published dashboard alive without a laptop.
+#
+# GitHub drops most high-frequency cron slots when its runners are busy (a
+# "*/5" schedule fired 0 times in a 4-hour session), so this workflow does not
+# rely on the schedule for cadence. Instead one run exports in a loop every
+# ~5 minutes around the clock and, before the 6-hour job limit, dispatches a
+# fresh run to take over. The hourly cron is only a fallback starter in case a
+# hand-off ever fails; while a loop is running it just queues one short pass.
+#
+# Commits docs/data.json and docs/engine_portfolio.json so Pages republishes.
+# Needs repository secrets ALPACA_API_KEY and ALPACA_SECRET_KEY (paper keys).
+
+on:
+  schedule:
+    - cron: "7 * * * *"            # fallback starter, every hour
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+# One loop at a time. A cron that fires while a loop is running is queued
+# (GitHub keeps one pending run per group) and takes over when it ends.
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt yfinance
+      - name: Restore data caches
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/wide
+            data/fund
+            data/nasdaq_cal
+          key: engine-data-${{ github.run_id }}
+          restore-keys: engine-data-
+      - name: Export loop
+        id: loop
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+        run: |
+          git config user.name "raidical-bot"
+          git config user.email "actions@users.noreply.github.com"
+          publish() {
+            git add docs/data.json docs/engine_portfolio.json
+            if git diff --cached --quiet; then return 0; fi
+            # Snapshots are squashed into the last commit so a day of refreshes doesn't bloat history.
+            if git log -1 --format=%s | grep -q '^Refresh dashboard data'; then
+              git commit -q --amend -m "Refresh dashboard data $(date -u +%Y-%m-%dT%H:%M)"
+              git push -q --force-with-lease origin HEAD:main || { git fetch -q origin && git reset -q --soft origin/main && git commit -q -m "Refresh dashboard data $(date -u +%Y-%m-%dT%H:%M)" && git push -q origin HEAD:main; }
+            else
+              git commit -q -m "Refresh dashboard data $(date -u +%Y-%m-%dT%H:%M)"
+              git pull -q --rebase --autostash origin main && git push -q
+            fi
+          }
+          started=$(date +%s)
+          handoff=no
+          # 24/7: data stays live overnight and at weekends too (after-hours prices, news, calendar).
+          while :; do
+            python scripts/export.py || echo "export failed at $(date -u +%H:%M), retrying next pass"
+            publish
+            # Hand off before the 6-hour job limit; the new run takes over the loop.
+            if [ $(( $(date +%s) - started )) -gt $((300 * 60)) ]; then handoff=yes; break; fi
+            sleep 60
+          done
+          echo "handoff=$handoff" >> "$GITHUB_OUTPUT"
+      - name: Save data caches
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            data/wide
+            data/fund
+            data/nasdaq_cal
+          key: engine-data-${{ github.run_id }}
+      - name: Hand off to a fresh run
+        if: steps.loop.outputs.handoff == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run refresh.yml --ref main
