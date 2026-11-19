@@ -1,0 +1,30 @@
+name: Probe data sources
+
+# Manual check of which free data sources answer from GitHub's runners.
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Cboe delayed SPX chain
+        run: |
+          curl -sL -o spx.json -w "cboe http=%{http_code} bytes=%{size_download} url=%{url_effective}\n" -A "Mozilla/5.0 (raidical-stonkz research)" "https://cdn.cboe.com/api/global/delayed_quotes/options/_SPX.json" || true
+          head -c 300 spx.json; echo
+          curl -sL -o spx2.json -w "cboe-browser-ua http=%{http_code} bytes=%{size_download}\n" -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36" -H "Accept: application/json" -H "Referer: https://www.cboe.com/" "https://cdn.cboe.com/api/global/delayed_quotes/options/_SPX.json" || true
+      - name: Yahoo index history
+        run: |
+          pip -q install yfinance
+          python - <<'PY'
+          import yfinance as yf
+          try:
+              h = yf.download(["^GSPC", "^VIX"], period="5d", progress=False)["Close"]
+              print("yahoo rows", len(h)); print(h.tail(2))
+          except Exception as e:
+              print("yahoo ERR", repr(e)[:300])
+          PY
+      - name: Nasdaq calendar
+        run: |
+          curl -s -o cal.json -w "nasdaq http=%{http_code} bytes=%{size_download}\n" -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124 Safari/537.36" -H "Accept: application/json" -H "Origin: https://www.nasdaq.com" -H "Referer: https://www.nasdaq.com/" "https://api.nasdaq.com/api/calendar/earnings?date=2026-11-12" || true

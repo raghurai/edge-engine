@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="US stocks and options: measured odds, model picks and index option structures, refreshed around the clock.">
+<title>Raidical Stonkz</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23000'/%3E%3Cpath d='M16 5l11 11-11 11L5 16z' fill='%2300c805'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=11">
+</head>
+<body>
+<header class="top">
+  <span class="logo">◆ Raidical Stonkz</span>
+  <nav class="nav" aria-label="Sections">
+    <a href="#" class="active" data-tab="home">Home</a>
+    <a href="#" data-tab="stocks">Stocks</a>
+    <a href="#" data-tab="options">Options</a>
+    <a href="#" data-tab="spx">SPX</a>
+    <a href="#" data-tab="earnings">Earnings</a>
+    <a href="#" data-tab="portfolio">Portfolio</a>
+  </nav>
+  <div class="status">
+    <span class="fresh" id="fresh"><i></i><span id="fresh-text">—</span></span>
+  </div>
+</header>
+
+<main id="home" class="grid">
+  <section class="panel shape">
+    <div class="panel-head">
+      <h2>Shape of the market</h2>
+      <span class="hint" id="shape-hint">every name by today's move · lane = sector · size = volume</span>
+    </div>
+    <div id="shape" class="shape-canvas"><canvas id="xray"></canvas><div class="tip" id="xray-tip" hidden></div></div>
+    <div id="sector-detail" class="sector-detail"></div>
+  </section>
+
+  <section class="panel volume">
+    <div class="panel-head">
+      <h2>Most volume</h2>
+      <div class="tabs" id="vol-tabs">
+        <button class="on" data-kind="stocks">Stocks / ETFs</button>
+        <button data-kind="options">Options</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="vol-table">
+        <thead><tr><th>Ticker</th><th>Price</th><th>Chg</th><th>Vol</th><th>Engine</th><th>Edge</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty" id="options-empty" hidden>Options flow needs a real-time OPRA feed. Not connected on the free plan yet.</p>
+    </div>
+  </section>
+
+  <section class="panel flow">
+    <div class="panel-head">
+      <h2>Live flow <span class="live" id="live"><i></i><span>snapshot</span></span></h2>
+      <span class="hint" id="flow-rate">what the engine is seeing</span>
+    </div>
+    <div class="boards">
+      <div class="board"><h3 class="up">Bullish</h3><ol id="bull"></ol></div>
+      <div class="board"><h3 class="down">Bearish</h3><ol id="bear"></ol></div>
+    </div>
+    <div id="zone" class="zone"><span class="dim">Click a ticker for its zone</span></div>
+    <div id="outlook" class="outlook"></div>
+    <ul id="flow" class="flow-list"></ul>
+  </section>
+</main>
+
+<main id="stocks" class="single tiers" hidden>
+  <section class="panel tier will">
+    <div class="panel-head">
+      <h2>Will make money <span class="proof">measured odds</span></h2>
+      <div class="tabs" data-tier="stocks-will"><button data-h="weekly">Weekly</button><button class="on" data-h="month">Month</button><button data-h="years">Years</button></div>
+    </div>
+    <div class="table-wrap" id="stocks-will"></div>
+    <p class="foot" id="pead-foot"></p>
+  </section>
+  <section class="panel tier maybe">
+    <div class="panel-head">
+      <h2>Maybe will make money <span class="proof warn">model picks</span></h2>
+      <div class="tabs" data-tier="stocks-maybe"><button data-h="weekly">Weekly</button><button class="on" data-h="month">Month</button><button data-h="years">Years</button></div>
+    </div>
+    <div class="table-wrap" id="stocks-maybe"></div>
+    <p class="foot" id="maybe-foot"></p>
+  </section>
+  <section class="panel tier lotto">
+    <div class="panel-head">
+      <h2>Lotto <span class="proof lot">🎰 catalysts</span></h2>
+      <span class="hint">names with a reason to move big this week · contracts on the Options page</span>
+    </div>
+    <div class="table-wrap" id="stocks-lotto"></div>
+  </section>
+
+  <section class="panel learn strip">
+    <div class="strip-row">
+      <div class="strip-title">Brain <span class="live on"><i></i><span id="brain-asof">—</span></span></div>
+      <div class="strip-stat"><b id="brain-scored">—</b><span class="k">companies scored</span></div>
+      <div class="strip-stat"><b id="brain-rows">—</b><span class="k">stock-periods tested</span></div>
+      <div class="strip-stat"><b id="brain-edge">—</b><span class="k">monthly picks vs SPY</span></div>
+      <div class="strip-stat"><b id="brain-verdict">—</b><span class="k">verdict</span></div>
+    </div>
+    <div class="strip-sub" id="brain-foot"></div>
+  </section>
+
+  <section class="panel edges" hidden>
+    <div class="panel-head stocks-head">
+      <div class="horizons">
+        <span class="group">Short term</span>
+        <div class="tabs" id="horizon-tabs">
+          <button class="on" data-h="weekly">Weekly</button>
+          <button data-h="monthly">Monthly</button>
+          <button data-h="6month">6 months</button>
+        </div>
+        <span class="group">Long term</span>
+        <div class="tabs"><button data-h="long" class="in-horizon">Over 6 months</button></div>
+      </div>
+      <div class="stocks-meta">
+        <label class="toggle"><input type="checkbox" id="only-edge" checked> positive edge only</label>
+        <span class="hint" id="weights"></span>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="edge-table">
+        <thead><tr><th>#</th><th>Ticker</th><th>Price</th><th>Odds</th><th>Exp. move</th><th>Spread</th><th>Edge</th><th>Drivers</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <p class="empty" id="edge-empty" hidden>No names pass this risk chip right now.</p>
+    </div>
+    <p class="foot" id="stocks-foot"></p>
+  </section>
+</main>
+
+<main id="options" class="single tiers" hidden>
+  <section class="panel tier will">
+    <div class="panel-head">
+      <h2>Will make money <span class="proof">measured edge</span></h2>
+      <div class="tabs" data-tier="options-will"><button data-h="weekly">Weekly</button><button class="on" data-h="month">Month</button><button data-h="years">Years</button></div>
+    </div>
+    <div class="table-wrap" id="options-will"></div>
+    <p class="foot" id="options-will-foot"></p>
+  </section>
+  <section class="panel tier maybe">
+    <div class="panel-head">
+      <h2>Maybe will make money <span class="proof warn">best by expected value</span></h2>
+      <div class="tabs" data-tier="options-maybe"><button data-h="weekly">Weekly</button><button class="on" data-h="month">Month</button><button data-h="years">Years</button></div>
+    </div>
+    <div class="table-wrap" id="options-maybe"></div>
+    <p class="foot">For each model pick, every listed strike and expiry is priced against that pick's own out-of-sample return distribution, after the spread and time decay. The one shown has the best expected growth. A contract with negative expected value is never shown.</p>
+  </section>
+  <section class="panel tier lotto">
+    <div class="panel-head">
+      <h2>Lotto <span class="proof lot">🎰 specific contracts</span></h2>
+      <div class="tabs" data-tier="options-lotto"><button class="on" data-h="weekly">Weekly</button><button data-h="month">Month</button><button data-h="years">LEAP</button></div>
+    </div>
+    <div class="table-wrap" id="options-lotto"></div>
+    <p class="foot" id="lotto-foot">Cheap and far out of the money on names with a catalyst. Most expire worthless; the point is the payoff if the move lands. "Needs" is how far the stock must move by expiry. Judge lottos as a group, never one at a time.</p>
+  </section>
+</main>
+<main id="spx" class="single tiers spxgrid" hidden>
+  <section class="panel desk">
+    <div class="panel-head">
+      <h2>SPX <span class="proof dim" id="spx-asof">Cboe · 15-min delayed</span></h2>
+      <span class="hint">what the index option market is pricing · S&amp;P 500 index options, cash-settled, no shares</span>
+    </div>
+    <div class="learn-stats" id="spx-stats"></div>
+    <div class="table-wrap" id="spx-moves"></div>
+    <p class="foot">Expected move = at-the-money straddle × 0.85, the market's own one-sigma range to each expiry. "1σ strikes" are the 16-delta put and call. Range is what you trade against, not a forecast.</p>
+  </section>
+
+  <section class="panel tier will">
+    <div class="panel-head">
+      <h2>Will make money <span class="proof">measured edge</span></h2>
+      <div class="tabs" data-tier="spx-will"><button class="on" data-h="weekly">Weekly</button><button data-h="month">Month</button><button data-h="years">Years</button></div>
+    </div>
+    <div class="table-wrap" id="spx-will"></div>
+    <p class="foot" id="spx-will-foot"></p>
+  </section>
+
+  <section class="panel walls">
+    <div class="panel-head">
+      <h2>Walls <span class="proof dim">positioning</span></h2>
+      <span class="hint" id="walls-hint">open interest this week</span>
+    </div>
+    <div class="table-wrap" id="spx-walls"></div>
+    <p class="foot">Big open interest acts like a magnet near expiry and a wall before it: dealers hedge the other side. Max pain is the strike where the most option value expires worthless next session.</p>
+  </section>
+
+  <section class="panel tier maybe">
+    <div class="panel-head">
+      <h2>Maybe will make money <span class="proof warn">unproven lean</span></h2>
+      <div class="tabs" data-tier="spx-maybe"><button class="on" data-h="weekly">Weekly</button><button data-h="month">Month</button><button data-h="years">Years</button></div>
+    </div>
+    <div class="table-wrap" id="spx-maybe"></div>
+    <p class="foot" id="spx-maybe-foot"></p>
+  </section>
+  <section class="panel tier lotto">
+    <div class="panel-head">
+      <h2>Lotto <span class="proof lot">🎰 far out of the money</span></h2>
+      <div class="tabs" data-tier="spx-lotto"><button class="on" data-h="weekly">Weekly</button><button data-h="month">Month</button><button data-h="years">LEAP</button></div>
+    </div>
+    <div class="table-wrap" id="spx-lotto"></div>
+    <p class="foot">Cheap SPX contracts that need a move well past the expected one. The delta is roughly the chance they finish in the money. One SPX contract is $100 per point; prices shown are per contract.</p>
+  </section>
+</main>
+
+<main id="earnings" class="single cal" hidden>
+  <section class="panel week">
+    <div class="panel-head">
+      <div class="weeknav">
+        <button id="wk-prev" title="previous week">‹</button>
+        <div class="wk-label"><span class="k">Earnings</span><b id="wk-range">—</b></div>
+        <button id="wk-next" title="next week">›</button>
+        <button id="wk-today" class="pillbtn">This week</button>
+      </div>
+      <span class="hint" id="wk-count"></span>
+    </div>
+    <div class="days" id="wk-days"></div>
+  </section>
+  <section class="panel feed">
+    <div class="panel-head"><h2>Earnings feed</h2><span class="hint" id="cal-bar"></span></div>
+    <div class="feed-list" id="cal-feed"></div>
+    <p class="foot">Newest reports first. Estimate vs actual, EPS surprise, and the stock's move on the day. A green card is a top-fifth beat that the market rewarded on the day.</p>
+  </section>
+</main>
+
+
+<main id="portfolio" class="single paper" hidden>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Paper trading</h2>
+      <div class="stocks-meta">
+        <span class="hint">pick signals with the Paper trade button on Stocks and Options · marked to the latest prices</span>
+        <button class="pillbtn small" id="paper-export">Export</button>
+        <button class="pillbtn small" id="paper-reset">Clear</button>
+      </div>
+    </div>
+    <div class="learn-stats" id="paper-stats"></div>
+    <div class="table-wrap" id="paper-open"></div>
+    <div class="sub-head">Closed</div>
+    <div class="table-wrap" id="paper-closed"></div>
+    <p class="foot">Positions live in this browser only (no account, no server). Stocks fill at the last price, contracts at the ask and close at the bid. One contract = 100 shares. Marks refresh with the export; stocks also tick live when the relay is on.</p>
+  </section>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Engine portfolio <span class="proof">autopilot</span></h2>
+      <span class="hint" id="ep-since">the engine trades its own $100k: buys the brain's top monthly picks, sells after 21 days or when the brain turns on a name, no human in the loop</span>
+    </div>
+    <div class="learn-stats" id="ep-stats"></div>
+    <div class="tabs ep-tabs" id="ep-tabs"><button class="on" data-ep="current">Current</button><button data-ep="history">History</button></div>
+    <div class="table-wrap" id="ep-open"></div>
+    <div class="table-wrap" id="ep-closed" hidden></div>
+    <p class="foot">Fixed rules, no discretion, scored against SPY from the day it started. If this number doesn't beat SPY over time, the engine doesn't work, whatever the backtest said.</p>
+  </section>
+</main>
+
+<script src="app.js?v=11"></script>
+</body>
+</html>
