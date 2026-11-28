@@ -1,0 +1,99 @@
+name: Retrain the brain
+
+# Once a week: rebuild the whole research history (every US company listed or delisted,
+# adjusted as of today), retrain the models walk-forward, and publish them only if they
+# pass the trainer's guard rails (rank skill still positive, not collapsed against the
+# model in service, training set not shrunk). The live loop in refresh.yml follows main,
+# so a published model is scoring within one pass. Takes a little over an hour, almost
+# all of it the price download, which is kept slow on purpose to leave API headroom for
+# the live loop running on the same keys.
+
+on:
+  schedule:
+    - cron: "17 6 * * 6"     # Saturday 06:17 UTC
+    - cron: "17 6 * * 0"     # Sunday fallback, skipped when Saturday already retrained
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: retrain
+  cancel-in-progress: false
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - name: Is a retrain due
+        id: due
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          card = Path("models/brain/card.json")
+          age = 99.0
+          if card.exists():
+              t = datetime.fromisoformat(json.loads(card.read_text())["trained_at"])
+              age = (datetime.now(timezone.utc) - t).total_seconds() / 86400
+          manual = os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"
+          print("due=" + ("yes" if manual or age >= 5 else "no"))
+          PY
+      - name: Restore research caches
+        if: steps.due.outputs.due == 'yes'
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            data/nasdaq_cal
+            data/research/finra
+          key: brain-research-${{ github.run_id }}
+          restore-keys: brain-research-
+      - name: Download history
+        if: steps.due.outputs.due == 'yes'
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+        run: python -u scripts/brain_data.py fresh sectors finra calendar bars
+      - name: Save research caches
+        if: always() && steps.due.outputs.due == 'yes'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            data/nasdaq_cal
+            data/research/finra
+          key: brain-research-${{ github.run_id }}
+      - name: Train and validate
+        if: steps.due.outputs.due == 'yes'
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+        run: |
+          python -u scripts/brain_train.py --rebuild
+          python scripts/brain_report.py
+      - name: Publish the models
+        if: steps.due.outputs.due == 'yes'
+        run: |
+          git config user.name "raidical-bot"
+          git config user.email "actions@users.noreply.github.com"
+          KEEP=$(mktemp -d)
+          cp -r models/brain/. "$KEEP"/
+          # Same discipline as the live loop: build the commit on whatever main is now, add only our files.
+          for attempt in 1 2 3 4 5; do
+            git fetch -q origin main
+            git reset -q --hard origin/main
+            cp -r "$KEEP"/. models/brain/
+            git add models/brain
+            if git diff --cached --quiet; then echo "models unchanged"; exit 0; fi
+            git commit -q -m "Retrain the brain $(date -u +%Y-%m-%d)"
+            git push -q origin HEAD:main && { echo "published"; exit 0; }
+            sleep 7
+          done
+          echo "could not publish the retrained models"; exit 1

@@ -1,0 +1,3 @@
+# LightGBM model files must keep their exact bytes: a CRLF checkout makes the loader abort.
+models/brain/*.txt -text
+models/brain/*.parquet binary
